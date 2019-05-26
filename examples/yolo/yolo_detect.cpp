@@ -13,7 +13,7 @@
 //    folder/video2.mp4
 //
 #include <caffe/caffe.hpp>
-//#define USE_OPENCV
+#define USE_OPENCV
 #ifdef USE_OPENCV
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -35,7 +35,8 @@
 #ifdef custom_class
 char* YOLO_CLASSES[2] = { "__background__", "pedestrian"};
 
-/*char* YOLO_CLASSES[81] = { "__background__",
+#else
+char* YOLO_CLASSES[81] = { "__background__",
 "person", "bicycle", "car", "motorcycle",
 "airplane", "bus", "train", "truck", "boat",
 "traffic light", "fire hydrant", "stop sign", "parking meter",
@@ -56,14 +57,13 @@ char* YOLO_CLASSES[2] = { "__background__", "pedestrian"};
 "microwave", "oven", "toaster", "sink" ,
 "refrigerator", "book", "clock", "vase" ,
 "scissors", "teddy bear", "hair drier", "toothbrush" ,
-};*/
-#else
-char* YOLO_CLASSES[21] = { "__background__",
-"aeroplane", "bicycle", "bird", "boat",
-"bottle", "bus", "car", "cat", "chair",
-"cow", "diningtable", "dog", "horse",
-"motorbike", "person", "pottedplant",
-"sheep", "sofa", "train", "tvmonitor" };
+};
+// char* YOLO_CLASSES[21] = { "__background__",
+// "aeroplane", "bicycle", "bird", "boat",
+// "bottle", "bus", "car", "cat", "chair",
+// "cow", "diningtable", "dog", "horse",
+// "motorbike", "person", "pottedplant",
+// "sheep", "sofa", "train", "tvmonitor" };
 //char* YOLO_CLASSES[21] = { "__background__",
 //"obj" };
 

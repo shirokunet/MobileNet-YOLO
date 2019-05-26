@@ -1,6 +1,7 @@
 # set up Python environment: numpy for numerical routines, and matplotlib for plotting
 import numpy as np
 import sys
+import time
 import cv2
 from pascal_voc_writer import Writer
 #import matplotlib.pyplot as plt
@@ -91,7 +92,9 @@ def det(image,transformer,net):
     net.blobs['data'].data[...] = transformed_image
 
     ### perform classification
+    start_t = time.time()
     output = net.forward()
+    print('Process time [s]', time.time() - start_t)
 
     res = output['detection_out'][0]  # the output probability vector for the first image in the batch
     res2 = output['sigmoid'][0]  # the output probability vector for the first image in the batch
@@ -129,8 +132,8 @@ def main(args):
     images = filter(is_imag, filenames)
     for image in images :
         pic = args.image_dir + image
-        input = caffe.io.load_image(pic)       
-        image_show =cv2.imread(pic)  
+        input = caffe.io.load_image(pic)
+        image_show =cv2.imread(pic)
         result,result2 = det(input,transformer,net)
         vis_detections(image_show,result,result2)
         if args.write_voc:
@@ -141,14 +144,14 @@ def main(args):
         else :
             print('');
             cv2.imshow("Image", image_show)
-            cv2.waitKey (1000)
+            cv2.waitKey (1)
         
 def parse_args():
     parser = argparse.ArgumentParser()
     '''parse args'''
-    parser.add_argument('--image_dir', default='data/bdd100k/')
-    parser.add_argument('--model_def', default='models/pelee/deploy.prototxt')
-    parser.add_argument('--model_weights', default='models/pelee/pelee_SSD_304x304_iter_160000.caffemodel')
+    parser.add_argument('--image_dir', default='../data/tusimple_images/')
+    parser.add_argument('--model_def', default='../models/pelee/pelee_merged.prototxt')
+    parser.add_argument('--model_weights', default='../models/pelee/pelee_merged.caffemodel')
     parser.add_argument('--image_resize', default=304, type=int)
     parser.add_argument('--write_voc', default=False)
     return parser.parse_args()
